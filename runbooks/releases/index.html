@@ -1139,10 +1139,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#release-notes" class="md-nav__link">
+  <a href="#github-release-notes-step-by-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release notes
+        GitHub release notes (step by step)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-else-a-change-is-recorded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where else a change is recorded
       
     </span>
   </a>
@@ -1309,10 +1320,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#release-notes" class="md-nav__link">
+  <a href="#github-release-notes-step-by-step" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release notes
+        GitHub release notes (step by step)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-else-a-change-is-recorded" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where else a change is recorded
       
     </span>
   </a>
@@ -1373,11 +1395,30 @@ Deploys build the Docker image locally and push it to Docker Hub; Kamal builds f
 <li>New env secrets: add to <code>.kamal/secrets</code> (reads from git-ignored files) <strong>and</strong> the
    <code>env.secret</code> list in <code>config/deploy.yml</code> before deploying.</li>
 </ol>
-<h2 id="release-notes">Release notes</h2>
-<p>Every release that changes behaviour gets recorded where the change lives:</p>
+<h2 id="github-release-notes-step-by-step">GitHub release notes (step by step)</h2>
+<p>Every verified production deploy ends with a <strong>tagged GitHub release</strong>, so the release
+history lives where the code lives. Each app repo carries <code>bin/release</code>:</p>
+<ol>
+<li>Deploy and verify (steps above). Do not tag an unverified deploy.</li>
+<li>From the repo root run <code>bin/release</code>.</li>
+<li>Tags are <strong>CalVer</strong>: <code>v2026.09.11</code>, with <code>.2</code>, <code>.3</code> appended for repeat releases on
+     the same day. An explicit tag can be passed: <code>bin/release v1.4.0</code>.</li>
+<li>The notes are generated from every commit subject since the previous tag (commit
+     messages are written to be readable for exactly this reason), under a <code>## Changes</code>
+     heading.</li>
+<li>Edit on GitHub afterwards if a release deserves prose: highlights first, generated
+   commit list underneath.</li>
+<li>The baseline is <code>v2026.09.11</code> on each repo (website <code>keferboeck-next-react</code>, portal
+   <code>keferboeck-portal</code>, shops <code>solidus-demos</code>): a hand-written summary of everything in
+   production at the time tagging began.</li>
+</ol>
+<p>Rules: one release per deploy, never batch days together; a rollback gets its own
+release tagged from the rolled-back SHA with a note saying why; releases are immutable
+like ADRs — correct with a new one.</p>
+<h2 id="where-else-a-change-is-recorded">Where else a change is recorded</h2>
 <ol>
 <li>The <strong>ClickUp task</strong> is completed with the mandatory fields (problem, Solution,
-   Automated Tests, QA Steps) — that is the canonical release note per change.</li>
+   Automated Tests, QA Steps) — the canonical per-change record.</li>
 <li>Client-visible changes additionally get a <strong>portal Document</strong> (category <code>release</code>)
    assigned to the affected company, written for humans.</li>
 <li>Architecture-level changes update <strong>this knowledge base</strong> in the same PR (definition
